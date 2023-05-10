@@ -7,10 +7,11 @@ import ManualEntry from "./views/ManualEntry";
 import EditEntry from "./views/EditEntry";
 import GpsEntry from "./views/GpsEntry";
 import GpsTrack from "./views/GpsTrack";
+import { observer } from "mobx-react-lite";
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+const App = observer((props: any) => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Landing">
@@ -23,6 +24,6 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+});
 
 export default App;

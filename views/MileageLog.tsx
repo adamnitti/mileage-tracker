@@ -7,8 +7,11 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import { MileageTrackerModel } from "../models/MileageTrackerStore";
+import { useStores } from "../models/root-store-context";
 
 type MileageLogProps = {
+  id: number;
   date: string;
   purpose: string;
   odoStart: number;
@@ -16,11 +19,41 @@ type MileageLogProps = {
 };
 
 const mockData: MileageLogProps[] = [
-  { date: "2021-01-01", purpose: "purpose 1", odoStart: 10000, odoEnd: 10050 },
-  { date: "2021-01-02", purpose: "purpose 2", odoStart: 10050, odoEnd: 10100 },
-  { date: "2021-01-03", purpose: "purpose 3", odoStart: 10100, odoEnd: 10150 },
-  { date: "2021-01-04", purpose: "purpose 4", odoStart: 10150, odoEnd: 10200 },
-  { date: "2021-01-05", purpose: "purpose 5", odoStart: 10200, odoEnd: 10250 },
+  {
+    id: 1,
+    date: "2021-01-01",
+    purpose: "purpose 1",
+    odoStart: 10000,
+    odoEnd: 10050,
+  },
+  {
+    id: 2,
+    date: "2021-01-02",
+    purpose: "purpose 2",
+    odoStart: 10050,
+    odoEnd: 10100,
+  },
+  {
+    id: 3,
+    date: "2021-01-03",
+    purpose: "purpose 3",
+    odoStart: 10100,
+    odoEnd: 10150,
+  },
+  {
+    id: 4,
+    date: "2021-01-04",
+    purpose: "purpose 4",
+    odoStart: 10150,
+    odoEnd: 10200,
+  },
+  {
+    id: 5,
+    date: "2021-01-05",
+    purpose: "purpose 5",
+    odoStart: 10200,
+    odoEnd: 10250,
+  },
 ];
 
 const ROOT = {
@@ -39,6 +72,9 @@ const ENTRY_TEXT: TextStyle = {
 };
 
 const MileageLog = () => {
+  const { mileageTrackerStore } = useStores();
+  const mileageLog = mileageTrackerStore.mileageLog;
+  console.log({ mileageTrackerStore });
   return (
     <ScrollView>
       <View>
