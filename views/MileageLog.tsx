@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Pressable,
   ScrollView,
   Text,
@@ -38,7 +39,7 @@ const ENTRY_TEXT: TextStyle = {
   fontSize: 20,
 };
 
-const MileageLog = () => {
+const MileageLog = ({ navigation }) => {
   return (
     <ScrollView>
       <View>
@@ -54,6 +55,10 @@ const MileageLog = () => {
           </Pressable>
         ))}
       </View>
+      <Button
+        title="Create Entry"
+        onPress={() => navigation.navigate("Create New")}
+      ></Button>
     </ScrollView>
   );
 };
