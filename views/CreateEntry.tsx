@@ -1,5 +1,16 @@
-import { Text, View, TextInput, Button, Alert } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  Button,
+  Alert,
+  Platform,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Dispatch, useState } from "react";
 
 type Inputs = {
   date: string;
@@ -12,6 +23,7 @@ const CreateEntry = ({ navigation }) => {
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -21,44 +33,63 @@ const CreateEntry = ({ navigation }) => {
       odoEnd: "",
     },
   });
-  const onSubmit = (data: Inputs) => console.log(data);
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  // const [mode, setMode] = useState("date");
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const onSubmit = (data: Inputs) => {
+    console.log({ data });
+    // const inputString = data.date;
+    // console.log({ inputString });
+    // const date = new Date(inputString).toDateString();
+    // console.log({ date });
+    // const formattedDate = `${
+    //   date.getMonth() + 1
+    // }/${date.getDate()}/${date.getFullYear()}`;
+    // console.log({ formattedDate });
+  };
 
   return (
-    <View>
+    <ScrollView>
       <Controller
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            placeholder="Date"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
         name="date"
+        render={({ field: { onChange, value } }) => (
+          <>
+            <Pressable onPress={() => setShowDatePicker(true)}>
+              <Text>Enter Date</Text>
+            </Pressable>
+            {showDatePicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={value ? new Date(value) : new Date()} // Convert value to Date object
+                mode={"date"}
+                is24Hour={true}
+                onChange={(event: any, selectedDate: Date | undefined) => {
+                  onChange(selectedDate);
+                  setShowDatePicker(false);
+                }}
+              />
+            )}
+          </>
+        )}
       />
-      {errors.date && <Text>This is required.</Text>}
-
       <Controller
         control={control}
-        rules={{
-          maxLength: 100,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        name="purpose"
+        render={({ field: { onChange, value, onBlur } }) => (
           <TextInput
-            placeholder="Purpose"
-            onBlur={onBlur}
-            onChangeText={onChange}
+            placeholder="Purpose:"
             value={value}
+            onBlur={onBlur}
+            onChangeText={(value) => onChange(value)}
           />
         )}
-        name="purpose"
       />
       <Controller
         control={control}
+        name="odoStart"
         rules={{
           maxLength: 100,
         }}
@@ -67,14 +98,14 @@ const CreateEntry = ({ navigation }) => {
             keyboardType="numeric"
             placeholder="Odometer Start"
             onBlur={onBlur}
-            onChangeText={onChange}
+            onChangeText={(value) => onChange(value)}
             value={value}
           />
         )}
-        name="odoStart"
       />
       <Controller
         control={control}
+        name="odoEnd"
         rules={{
           maxLength: 100,
         }}
@@ -83,15 +114,13 @@ const CreateEntry = ({ navigation }) => {
             keyboardType="numeric"
             placeholder="Odometer End"
             onBlur={onBlur}
-            onChangeText={onChange}
+            onChangeText={(value) => onChange(value)}
             value={value}
           />
         )}
-        name="odoEnd"
       />
-
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-    </View>
+    </ScrollView>
   );
 };
 
