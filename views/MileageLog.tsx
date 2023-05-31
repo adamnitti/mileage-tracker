@@ -8,6 +8,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import mileageTrackerStore from "../models/mileageTrackerStore";
 
 type MileageLogProps = {
   date: string;
@@ -43,14 +44,15 @@ const MileageLog = ({ navigation }) => {
   return (
     <ScrollView>
       <View>
-        {mockData.map((entry, i) => (
+        {mileageTrackerStore.mileageEntries.map((entry: MileageLogProps, i) => (
           <Pressable
             key={i}
             style={ENTRY}
             onPress={() => console.log("test", entry.purpose)}
           >
             <Text style={ENTRY_TEXT}>
-              {entry.date} {entry.purpose} {entry.odoStart} {entry.odoEnd}
+              {entry.date.toString()} {entry.purpose} {entry.odoStart}{" "}
+              {entry.odoEnd}
             </Text>
           </Pressable>
         ))}

@@ -3,12 +3,17 @@ import { makeObservable, observable, action } from "mobx";
 class MileageTrackerStore {
   mileageEntries = [];
 
-  addMileageEntry(date, purpose, odoStart, odoEnd) {
+  addMileageEntry(data: {
+    date: string;
+    purpose: string;
+    odoStart: number;
+    odoEnd: number;
+  }) {
     this.mileageEntries.push({
-      date,
-      purpose,
-      odoStart,
-      odoEnd,
+      date: data.date,
+      purpose: data.purpose,
+      odoStart: data.odoStart,
+      odoEnd: data.odoEnd,
     });
   }
 

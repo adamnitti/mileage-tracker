@@ -10,36 +10,38 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Dispatch, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
+import mileageTrackerStore from "../models/mileageTrackerStore";
 
 type Inputs = {
   date: string;
   purpose: string;
-  odoStart: string;
-  odoEnd: string;
+  odoStart: number;
+  odoEnd: number;
 };
 
 const CreateEntry = ({ navigation }) => {
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       date: "",
       purpose: "",
-      odoStart: "",
-      odoEnd: "",
+      odoStart: 0,
+      odoEnd: 0,
     },
   });
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-  // const [mode, setMode] = useState("date");
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const onSubmit = (data: Inputs) => {
     console.log({ data });
+    mileageTrackerStore.addMileageEntry(data);
+    console.log("store", mileageTrackerStore.mileageEntries);
+    navigation.navigate("Mileage Log");
     // const inputString = data.date;
     // console.log({ inputString });
     // const date = new Date(inputString).toDateString();
@@ -99,7 +101,7 @@ const CreateEntry = ({ navigation }) => {
             placeholder="Odometer Start"
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
-            value={value}
+            value={value ? String(value) : ""}
           />
         )}
       />
@@ -115,7 +117,7 @@ const CreateEntry = ({ navigation }) => {
             placeholder="Odometer End"
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
-            value={value}
+            value={value ? String(value) : ""}
           />
         )}
       />

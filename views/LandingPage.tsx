@@ -13,7 +13,7 @@ const LandingPage = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate("Mileage Log");
-    }, 3000);
+    }, 1000);
   }, []);
 
   return (
